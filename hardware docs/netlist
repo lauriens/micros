@@ -1,0 +1,80 @@
+Netlist
+
+Exported from Board Laurien.brd at 12/12/18 09:54
+
+EAGLE Version 9.2.2 Copyright (c) 1988-2018 Autodesk, Inc.
+
+Net      Part         Pad
+
+S$1      U2           7
+
+S$2      Q1           1
+         U3           1
+         U3           2
+
+S$4      U2           8
+         U3           7
+
+S$6      U2           6
+
+S$7      MOTOR_HEADER 3
+         MOTOR_HEADER 4
+         MOTOR_HEADER 7
+         R1           2
+         R2           2
+         U2           16
+         U3           14
+
+S$8      R2           1
+         U2           4
+
+S$10     DIGITAL2     6
+
+S$12     MOTOR_HEADER 2
+         U3           10
+
+S$15     MOTOR_HEADER 1
+         U3           8
+         U3           9
+
+S$22     R1           1
+         U2           5
+
+S$24     Q1           2
+         U2           2
+         U3           3
+
+S$25     DIGITAL2     2
+
+S$40     DIGITAL2     1
+         DIGITAL2     11
+         DIGITAL2     13
+         DIGITAL2     15
+         DIGITAL2     3
+         DIGITAL2     5
+         DIGITAL2     7
+         DIGITAL2     9
+         MOTOR_HEADER 8
+
+S$44     U2           15
+
+S$47     DIGITAL2     4
+
+S$49     DIGITAL2     8
+
+S$53     U2           1
+
+S$54     U2           3
+
+S$56     U2           14
+
+S$57     U2           10
+
+S$58     U2           11
+
+S$59     U2           12
+
+S$60     U2           13
+
+S$61     U2           9
+

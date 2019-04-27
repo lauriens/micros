@@ -1,0 +1,75 @@
+Pinlist
+
+Exported from Board Laurien.brd at 12/12/18 09:54
+
+EAGLE Version 9.2.2 Copyright (c) 1988-2018 Autodesk, Inc.
+
+Part     Pad      Net
+
+DIGITAL2 1        S$40
+         2        S$25
+         3        S$40
+         4        S$47
+         5        S$40
+         6        S$10
+         7        S$40
+         8        S$49
+         9        S$40
+         10                *** unconnected ***
+         11       S$40
+         12                *** unconnected ***
+         13       S$40
+         14                *** unconnected ***
+         15       S$40
+         16                *** unconnected ***
+
+MOTOR_HEADER 1        S$15
+         2        S$12
+         3        S$7
+         4        S$7
+         5                 *** unconnected ***
+         6                 *** unconnected ***
+         7        S$7
+         8        S$40
+
+Q1       1        S$2
+         2        S$24
+
+R1       1        S$22
+         2        S$7
+
+R2       1        S$8
+         2        S$7
+
+U2       1        S$53
+         2        S$24
+         3        S$54
+         4        S$8
+         5        S$22
+         6        S$6
+         7        S$1
+         8        S$4
+         9        S$61
+         10       S$57
+         11       S$58
+         12       S$59
+         13       S$60
+         14       S$56
+         15       S$44
+         16       S$7
+
+U3       1        S$2
+         2        S$2
+         3        S$24
+         4                 *** unconnected ***
+         5                 *** unconnected ***
+         6                 *** unconnected ***
+         7        S$4
+         8        S$15
+         9        S$15
+         10       S$12
+         11                *** unconnected ***
+         12                *** unconnected ***
+         13                *** unconnected ***
+         14       S$7
+

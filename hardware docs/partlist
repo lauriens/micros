@@ -1,0 +1,17 @@
+Partlist
+
+Exported from Board Laurien.brd at 12/12/18 09:54
+
+EAGLE Version 9.2.2 Copyright (c) 1988-2018 Autodesk, Inc.
+
+Assembly variant: 
+
+Part         Value          Package          Library    Position (mil)        Orientation
+
+DIGITAL2                    PAK100/2500-5-16 con-3m     (1825 1350)           R270
+MOTOR_HEADER                MA04-2           con-lstb   (2200 200)            R0
+Q1                          QS               special    (1000 1200)           R270
+R1                          0207/12          rcl        (650 1200)            R90
+R2                          0207/12          rcl        (800 1200)            R90
+U2                          SOCKET-16        ic-package (500 550)             R180
+U3                          SOCKET-14        ic-package (1350 700)            R270

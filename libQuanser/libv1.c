@@ -14,7 +14,7 @@
 #define DECODER0 "/sys/class/gpio/gpio11/value"
 #define DECODER1 "/sys/class/gpio/gpio12/value"
 #define DECODER2 "/sys/class/gpio/gpio13/value"
-#define DECODER3 "/sys/class/gpio/gpio16/value"
+#define DECODER3 "/sys/class/gpio/gpio14/value"
 #define DECODER4 "/sys/class/gpio/gpio6/value"
 #define DECODER5 "/sys/class/gpio/gpio0/value"
 #define DECODER6 "/sys/class/gpio/gpio1/value"
@@ -24,19 +24,20 @@
 #define RST "/sys/class/gpio/gpio7/value"
 #define END_OF_COURSE1 "/sys/class/gpio/gpio38/value"
 #define END_OF_COURSE2 "/sys/class/gpio/gpio40/value"
-#define R_EN "/sys/class/gpio/gpio48/value"
-#define L_EN "/sys/class/gpio/gpio50/value"
+//#define R_EN "/sys/class/gpio/gpio48/value"
+//#define L_EN "/sys/class/gpio/gpio50/value"
 
 void setPWM()
 {
 	char pwm_period[50];
 	int period = 1000000000 / PWM_FREQ;
-	
+
 	snprintf(pwm_period, sizeof(pwm_period), "%d\n", period);
 	pputs(PWM_PERIOD, pwm_period);
 	pputs(PWM_ENABLE, "1");
-	pputs(R_EN, "1");
-	pputs (L_EN, "1");
+	// talvez controlar por aqui pra qual lado o motor deve girar
+//	pputs(R_EN, "1");
+//	pputs (L_EN, "1");
 }
 
 void setMotorVoltage (int voltage)
@@ -44,19 +45,20 @@ void setMotorVoltage (int voltage)
 	int duty_cycle;
 	float period = 1000000000 / PWM_FREQ;
 	char str[50];
-	
+
+  //talvez nao deixar a voltagem tao alta pra evitar tremedeira no braço
 	if (-27 > voltage || voltage > 27)
 	{
 		printf ("Voltage not suported! Please enter a value between -27 and 27\n");
 		return;
 	}
-	
+
 	pputs(PWM_ENABLE, "0");
-	
+
 	duty_cycle = ((1.0 / 54.0) * voltage + 0.5) * period;
 	snprintf(str, sizeof(str), "%d\n", duty_cycle);
 	pputs(DUTY_CYCLE, str);
-	
+
 	setPWM();
 }
 
@@ -64,9 +66,11 @@ int readCounter(int firstRead, int firstCount)
 {
 	int count = 0;
 	char countBit;
-	
-	pputs(SEL, "0");
-	
+
+	pputs(OE, "1");
+
+	pputs(SEL, "1"); // para o htcl-2017 o bit sel eh 1 para o byte "baixo"
+
 	count += atoi(pgets(&countBit, sizeof(countBit), DECODER0));
 	count += 2 * atoi(pgets(&countBit, sizeof(countBit), DECODER1));
 	count += 4 * atoi(pgets(&countBit, sizeof(countBit), DECODER2));
@@ -75,9 +79,9 @@ int readCounter(int firstRead, int firstCount)
 	count += 32 * atoi(pgets(&countBit, sizeof(countBit), DECODER5));
 	count += 64 * atoi(pgets(&countBit, sizeof(countBit), DECODER6));
 	count += 128 * atoi(pgets(&countBit, sizeof(countBit), DECODER7));
-	
-	pputs(SEL, "1");
-	
+
+	pputs(SEL, "0"); // para o htcl-2017 o bit sel eh 0 para o byte "alto"
+
 	count += 256 * atoi(pgets(&countBit, sizeof(countBit), DECODER0));
 	count += 512 * atoi(pgets(&countBit, sizeof(countBit), DECODER1));
 	count += 1024 * atoi(pgets(&countBit, sizeof(countBit), DECODER2));
@@ -86,12 +90,14 @@ int readCounter(int firstRead, int firstCount)
 	count += 8192 * atoi(pgets(&countBit, sizeof(countBit), DECODER5));
 	count += 16384 * atoi(pgets(&countBit, sizeof(countBit), DECODER6));
 	count += 32768 * atoi(pgets(&countBit, sizeof(countBit), DECODER7));
-	
+
 	if(firstRead)
 	    return count;
 	else
 	    count = (count - firstCount) * 0.0015;
-	
+
+	pputs(OE, "0");
+
 	return count;
 }
 
@@ -110,11 +116,3 @@ int readEndOfCourse(){
 
 	return ((atoi(pgets(&end_bit1,sizeof(end_bit1),END_OF_COURSE1))) || (atoi(pgets(&end_bit2,sizeof(end_bit2),END_OF_COURSE2))));
 }
-
-
-
-
-
-
-
-
