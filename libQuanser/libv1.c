@@ -137,7 +137,7 @@ int readCounter(int firstRead, int totalCount)
 	/// If it's not the first, or second reading, calculates the actual position, in degrees
 	///
 	else
-	    count = count * (totalCount / 180.0);
+	    count = count * (totalCount / M_PI);
 
 	pputs(OE, "0");
 
