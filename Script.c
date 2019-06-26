@@ -165,6 +165,7 @@ void process_uart_port(int port)
 void process_gpio_port(int port, int gpio)
 {
     int direction = 0;
+    int resistor = 0;
     char if_string[] = "    if [ ! -d /sys/class/gpio/gpioXX ] ; then\n";
     char export_string[] = "        echo -n \"XX\" > /sys/class/gpio/export\n";
     char end_if[] = "    fi\n";
@@ -197,17 +198,327 @@ void process_gpio_port(int port, int gpio)
                     replace_X(chmod_read, '1', '1');
                     write(script_file, aux, strlen(aux));
                     
-                    replace_X(if_string, '1', '2');
+                    replace_X(if_string, '3', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(export_string, '3', '2');
+                    write(script_file, aux, strlen(aux));
+                    write(script_file, end_if, sizeof(end_if));
+                    replace_X(echo_direction_out, '3', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(echo_value, '1', NULL);
+                    replace_X(aux, '3', '2');
+                    write(script_file, aux, strlen(aux));
+		    
+		    printf("Do you need a pull up or pull down resistor?\n0 - No\n1 - Pull Up\n2 - Pull Down\n");
+		    scanf("%d", &resistor);
+		    if(!resistor)
+		    {
+			replace_X(if_string,'3','3');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string,'3','3');
+			write(script_file,aux,strlen(aux));
+			write(script_file,end_if,strlen(end_if));
+			replace_X(echo_direction_in,'3','3');
+			write(script_file,aux,strlen(aux));
+		    }
+		    else if(resistor == 1)
+		    {
+			replace_X(if_string, '3', '3');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '3', '3');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '3', '3');
+			write(script_file,aux,strlen(aux));
+			replace_X(echo_value, '1', NULL);
+			replace_X(aux, '3', '3');
+			write(script_file, aux, strlen(aux));
+		    }
+		    else
+		    {
+			replace_X(if_string, '3', '3');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '3', '3');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '3', '3');
+			write(script_file,aux,strlen(aux));
+			replace_X(echo_value, '0', NULL);
+			replace_X(aux, '3', '3');
+			write(script_file, aux, strlen(aux));
+		    }
+		    break;
+                }
+                else
+		{
+		    replace_X(if_string, '1', '1');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(export_string, '1', '1');
+                    write(script_file, aux, strlen(aux));
+                    write(script_file, end_if, strlen(end_if));
+                    replace_X(chg_group, '1', '1');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(chmod_write, '1', '1');
+                    write(script_file, aux, strlen(aux));
+                    
+                    replace_X(if_string, '3', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(export_string, '3', '2');
+                    write(script_file, aux, strlen(aux));
+                    write(script_file, end_if, strlen(end_if));
+                    replace_X(echo_direction_out, '3', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(echo_value, '0', NULL);
+                    replace_X(aux, '3', '2');
+                    write(script_file, aux, strlen(aux));
+		}
+        case 1: if(!direction)
+		{
+		    replace_X(if_string, '1', '2');
                     write(script_file, aux, strlen(aux));
                     replace_X(export_string, '1', '2');
                     write(script_file, aux, strlen(aux));
-                    write(script_file, end_if, sizeof(end_if));
-                    replace_X(echo_direction_out, '1', '2');
+                    write(script_file, end_if, strlen(end_if));
+                    replace_X(chg_group, '1', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(chmod_read, '1', '2');
+                    write(script_file, aux, strlen(aux));
+                    
+                    replace_X(if_string, '2', '8');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(export_string, '2', '8');
+                    write(script_file, aux, strlen(aux));
+                    write(script_file, end_if, strlen(end_if));
+                    replace_X(echo_direction_out, '2', '8');
                     write(script_file, aux, strlen(aux));
                     replace_X(echo_value, '1', NULL);
-                    replace_X(aux, '1', '2');
+                    replace_X(aux, '2', '8');
                     write(script_file, aux, strlen(aux));
-                }
+		    
+		    if(!resistor)
+		    {
+			replace_X(if_string,'2','9');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string,'2','9');
+			write(script_file,aux,strlen(aux));
+			write(script_file,end_if,strlen(end_if));
+			replace_X(echo_direction_in,'2','9');
+			write(script_file,aux,strlen(aux));
+		    }
+		    else if(resistor == 1)
+		    {
+			replace_X(if_string, '2', '9');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '2', '9');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '2', '9');
+			write(script_file,aux,strlen(aux));
+			replace_X(echo_value, '1', NULL);
+			replace_X(aux, '2', '9');
+			write(script_file, aux, strlen(aux));
+		    }
+		    else
+		    {
+			replace_X(if_string, '2', '9');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '2', '9');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '2', '9');
+			write(script_file,aux,strlen(aux));
+			replace_X(echo_value, '0', NULL);
+			replace_X(aux, '2', '9');
+			write(script_file, aux, strlen(aux));
+		    }
+		    replace_X(if_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    replace_X(export_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    write(script_file, end_if, strlen(end_if));
+		    replace_X(echo_direction_out, '4', '5');
+		    write(script_file,aux,strlen(aux));
+		    replace_X(echo_value, '0', NULL);
+		    replace_X(aux, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    break;
+		}
+		else
+		{
+		    replace_X(if_string, '1', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(export_string, '1', '2');
+                    write(script_file, aux, strlen(aux));
+                    write(script_file, end_if, strlen(end_if));
+                    replace_X(chg_group, '1', '2');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(chmod_write, '1', '2');
+                    write(script_file, aux, strlen(aux));
+                    
+                    replace_X(if_string, '2', '8');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(export_string, '2', '8');
+                    write(script_file, aux, strlen(aux));
+                    write(script_file, end_if, strlen(end_if));
+                    replace_X(echo_direction_out, '2', '8');
+                    write(script_file, aux, strlen(aux));
+                    replace_X(echo_value, '0', NULL);
+                    replace_X(aux, '2', '8');
+                    write(script_file, aux, strlen(aux));
+		    
+		    replace_X(if_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    replace_X(export_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    write(script_file, end_if, strlen(end_if));
+		    replace_X(echo_direction_out, '4', '5');
+		    write(script_file,aux,strlen(aux));
+		    replace_X(echo_value, '0', NULL);
+		    replace_X(aux, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    break;
+		}
+	case 2: if(!direction)
+		{
+		    if(gpio == 13)
+		    {
+			replace_X(if_string, '1', '3');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '1', '3');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(chg_group, '1', '3');
+			write(script_file, aux, strlen(aux));
+			replace_X(chmod_read, '1', '3');
+			write(script_file, aux, strlen(aux));
+			
+			replace_X(if_string, '3', '4');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '3', '4');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '3', '4');
+			write(script_file, aux, strlen(aux));
+			replace_X(echo_value, '1', NULL);
+			replace_X(aux, '3', '4');
+			write(script_file, aux, strlen(aux));
+		    }
+		    else
+		    {
+			replace_X(if_string, '6', '1');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '6', '1');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(chg_group, '6', '1');
+			write(script_file, aux, strlen(aux));
+			replace_X(chmod_read, '6', '1');
+			write(script_file, aux, strlen(aux));
+		    }
+			
+		    if(!resistor)
+		    {
+			replace_X(if_string,'3','5');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string,'3','5');
+			write(script_file,aux,strlen(aux));
+			write(script_file,end_if,strlen(end_if));
+			replace_X(echo_direction_in,'3','5');
+			write(script_file,aux,strlen(aux));
+		    }
+		    else if(resistor == 1)
+		    {
+			replace_X(if_string, '3', '5');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '3', '5');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '3', '5');
+			write(script_file,aux,strlen(aux));
+			replace_X(echo_value, '1', NULL);
+			replace_X(aux, '3', '5');
+			write(script_file, aux, strlen(aux));
+		    }
+		    else
+		    {
+			replace_X(if_string, '3', '5');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '3', '5');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '3', '5');
+			write(script_file,aux,strlen(aux));
+			replace_X(echo_value, '0', NULL);
+			replace_X(aux, '3', '5');
+			write(script_file, aux, strlen(aux));
+		    }
+		    replace_X(if_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    replace_X(export_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    write(script_file, end_if, strlen(end_if));
+		    replace_X(echo_direction_out, '4', '5');
+		    write(script_file,aux,strlen(aux));
+		    replace_X(echo_value, '0', NULL);
+		    replace_X(aux, '4', '5');
+		    write(script_file, aux, strlen(aux)); 
+		}
+		else
+		{
+		    if(gpio == 13)
+		    {
+			replace_X(if_string, '1', '3');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '1', '3');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(chg_group, '1', '3');
+			write(script_file, aux, strlen(aux));
+			replace_X(chmod_write, '1', '3');
+			write(script_file, aux, strlen(aux));
+			
+			replace_X(if_string, '3', '4');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '3', '4');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(echo_direction_out, '3', '4');
+			write(script_file, aux, strlen(aux));
+			replace_X(echo_value, '0', NULL);
+			replace_X(aux, '3', '4');
+			write(script_file, aux, strlen(aux));
+		    }
+		    else
+		    {
+			replace_X(if_string, '6', '1');
+			write(script_file, aux, strlen(aux));
+			replace_X(export_string, '6', '1');
+			write(script_file, aux, strlen(aux));
+			write(script_file, end_if, strlen(end_if));
+			replace_X(chg_group, '6', '1');
+			write(script_file, aux, strlen(aux));
+			replace_X(chmod_write, '6', '1');
+			write(script_file, aux, strlen(aux));
+		    }
+		    replace_X(if_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    replace_X(export_string, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		    write(script_file, end_if, strlen(end_if));
+		    replace_X(echo_direction_out, '4', '5');
+		    write(script_file,aux,strlen(aux));
+		    replace_X(echo_value, '0', NULL);
+		    replace_X(aux, '4', '5');
+		    write(script_file, aux, strlen(aux));
+		}
+		break;
+	case 3: if(!direction)
+		{
+		    if(gpio == 14)
+		    {
+			
+		    }
+		}
     }
     
     update_list(port);
