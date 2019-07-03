@@ -527,6 +527,132 @@ void process_gpio_port(int port, int gpio)
 
 void process_pwm_port(int port)
 {
+    char if_string[] = "	if [ ! -d /sys/class/pwm/pwmchip0/pwmX ] ; then\n";
+    char if_gpio[] = "	if [ ! -d /sys/class/gpio/gpioXX ] ; then";
+    char export_string[] = "	    echo -n \"X\" > /sys/class/pwm/pwmchip0/export\n";
+    char export_gpio[] = "	    echo -n \"XX\" > /sys/class/gpio/export";
+    char end_if[] = "	fi\n";
+    char group_period[] = "	chgrp gpio /sys/class/pwm/pwmchip0/device/pwm_period\n";
+    char chmod_period[] = "	chmod g+w /sys/class/pwm/pwmchip0/device/pwm_period\n";
+    char group_cycle[] = "	chgrp gpio /sys/class/pwm/pwmchip0/pwmX/duty_cycle\n";
+    char chmod_cycle[] = "	chmod g+w /sys/class/pwm/pwmchip0/pwmX/duty_cycle\n";
+    char group_enable[] = "	chgrp gpio /sys/class/pwm/pwmchip0/pwmX/enable\n";
+    char chmod_enable[] = "	chmod g+w /sys/class/pwm/pwmchip0/pwmX/enable\n";
+    char echo_direction_out[] = "	echo -n \"out\" > /sys/class/gpio/gpioXX/direction";
+    char echo_direction_in[] = "	echo -n \"in\" > /sys/class/gpio/gpioXX/direction";
+    char echo_value[] = "	echo -n \"X\" > /sys/class/gpio/gpioXX/value\n";
+    
+    if(!contains(avaliable_ports, port, 20))
+    {
+        printf("Port was already added to the script. Choose another.");
+        return;
+    }
+    switch(port)
+    {
+        case 3: replace_X(if_string, '1', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(export_string, '1', NULL);
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                write(script_file, group_period, strlen(group_period));
+                write(script_file, chmod_period, strlen(chmod_period));
+                replace_X(group_cycle, '1', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(chmod_cycle, '1', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(group_enable, '1', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(chmod_enable, '1', NULL);
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '1', '6');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '1', '6');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_direction_out, '1', '6');
+                write(script_file, aux, strlen(aux));
+                replace_X(echo_value, '0', NULL);
+                replace_X(aux, '1', '6');
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '1', '7');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '1', '7');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_direction_in, '1', '7');
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '7', '6');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '7', '6');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_value, '0', NULL);
+                replace_X(aux, '7', '6');
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '6', '4');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '6', '4');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_value, '1', NULL);
+                replace_X(aux, '6', '4');
+                write(script_file, aux, strlen(aux));
+                break;
+        case 5: replace_X(if_string, '3', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(export_string, '3', NULL);
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                write(script_file, group_period, strlen(group_period));
+                write(script_file, chmod_period, strlen(chmod_period));
+                replace_X(group_cycle, '3', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(chmod_cycle, '3', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(group_enable, '3', NULL);
+                write(script_file, aux, strlen(aux));
+                replace_X(chmod_enable, '3', NULL);
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '1', '8');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '1', '8');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_direction_out, '1', '8');
+                write(script_file, aux, strlen(aux));
+                replace_X(echo_value, '0', NULL);
+                replace_X(aux, '1', '8');
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '1', '9');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '1', '9');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_direction_in, '1', '9');
+                write(script_file, aux, strlen(aux));
+                
+                replace_X(if_gpio, '6', '6');
+                write(script_file, aux, strlen(aux));
+                replace_X(export_gpio, '6', '6');
+                write(script_file, aux, strlen(aux));
+                write(script_file, end_if, strlen(end_if));
+                replace_X(echo_value, '0', NULL);
+                replace_X(aux, '6', '6');
+                write(script_file, aux, strlen(aux));
+                break;
+                
+        case 6:
+        case 9:
+        case 10:
+        case 11: break;
+    }
+    update_list(port);
 }
 
 void process_spi_port(int port)
@@ -535,10 +661,106 @@ void process_spi_port(int port)
 
 void process_adc_port(int port)
 {
+    char if_gpio[] = "    if [ ! -d /sys/class/gpio/gpioXX ] ; then\n";
+    char export[] = "        echo -n \"XX\" > /sys/class/gpio/export\n";
+    char end_if[] = "    fi\n";
+    char echo_in[] = "    echo -n \"in\" > /sys/class/gpio/gpioXX/direction\n";
+    char group_scale[] = "    chgrp gpio /sys/bus/iio/devices/iio:device0/in_voltage\"X\"_scale\n";
+    char chmod_scale[] = "    chmod g+r /sys/bus/iio/devices/iio:device0/in_voltage\"X\"_scale\n";
+    char group_en[] = "    chgrp gpio /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage\"X\"_en\n";
+    char chmod_en[] = "    chmod g+rw /sys/bus/iio/devices/iio:device0/scan_elements/in_voltage\"X\"_en\n";
+    char grp_times[] = "    chgrp gpio /sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en\n";
+    char chmod_times[] = "    chmod g+rw /sys/bus/iio/devices/iio:device0/scan_elements/in_timestamp_en\n";
+    char grp_enable[] = "    chgrp gpio /sys/bus/iio/devices/iio:device0/buffer/enable\n";
+    char chmod_enable[] = "    chmod g+rw /sys/bus/iio/devices/iio:device0/buffer/enable\n";
+    char grp_length[] = "    chgrp gpio /sys/bus/iio/devices/iio:device0/buffer/length\n";
+    char chmod_length[] = "	chmod g+rw /sys/bus/iio/devices/iio:device0/buffer/length\n";
+    char modprobe_t[] = "    modprobe iio-trig-sysfs\n";
+    char add_trigger_t[] = "    echo -n \"0\" > /sys/bus/iio/devices/iio_sysfs_trigger/add_trigger\n";
+    char grp_trg_now_t[] = "    chgrp gpio /sys/bus/iio/devices/trigger0/trigger_now\n";
+    char chmod_trg_now_t[] = "	chmod g+w /sys/bus/iio/devices/trigger0/trigger_now\n";
+    char modprobe_h[] = "	modprobe iio-trig-hrtimer\n";
+    char add_trigger_h[] = "    echo -n \"1\" > /sys/bus/iio/devices/iio_hrtimer_trigger/add_trigger\n";
+    char grp_freq[] = "    chgrp adc /sys/bus/iio/devices/trigger1/frequency\n";
+    char chmod_freq[] = "    chmod g+rw /sys/bus/iio/devices/trigger1/frequency\n";
+    char grp_ct[] = "    chgrp adc /sys/bus/iio/devices/iio:device0/trigger/current_trigger\n"; 
+    char chmod_ct[] = "	chmod g+rw /sys/bus/iio/devices/iio:device0/trigger/current_trigger\n";
+    char grp_d0[] = "	chgrp adc /dev/iio:device0\n";
+    char chmodd0[] = "	chmod g+r /dev/iio:device0\n";
+    
+    
 }
 
 void process_i2c_port(int port)
 {
+    char if_string[] = "	if [ ! -d /sys/class/gpio/gpioXX ] ; then\n";
+    char export_string[] = "    		echo -n \"XX\" > /sys/class/gpio/export\n";
+    char end_if[] = "	fi\n";
+    char echo_direction_out[] = "	echo \"out\" > /sys/class/gpio/gpioXX/direction\n";
+    char echo_value[] = "	echo \"X\" > /sys/class/gpio/gpioXX/value\n";
+    char group[] = "	chgrp gpio /dev/i2c-0\n";
+    char chmod[] = "	chmod g+rw /dev/i2c-0\n";
+    
+    if(!contains(avaliable_ports, port, 20))
+    {
+        printf("Port was already added to the script. Choose another.");
+        return;
+    }
+    
+    switch(port)
+    {
+        case 18: replace_X(if_string, '5', '7');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(export_string, '5', '7');
+                 write(script_file, aux, strlen(aux));
+                 write(script_file, end_if, strlen(end_if));
+                 replace_X(echo_direction_out, '5', '7');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(echo_value, '1', NULL);
+                 replace_X(aux, '5', '7');
+                 write(script_file, aux, strlen(aux));
+                 
+                 replace_X(if_string, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(export_string, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 write(script_file, end_if, strlen(end_if));
+                 replace_X(echo_direction_out, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(echo_value, '0', NULL);
+                 replace_X(aux, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 
+                 write(script_file, group, strlen(group));
+                 write(script_file, chmod, strlen(chmod));
+                 break;
+        case 19: replace_X(if_string, '5', '9');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(export_string, '5', '9');
+                 write(script_file, aux, strlen(aux));
+                 write(script_file, end_if, strlen(end_if));
+                 replace_X(echo_direction_out, '5', '9');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(echo_value, '1', NULL);
+                 replace_X(aux, '5', '9');
+                 write(script_file, aux, strlen(aux));
+                 
+                 replace_X(if_string, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(export_string, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 write(script_file, end_if, strlen(end_if));
+                 replace_X(echo_direction_out, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 replace_X(echo_value, '0', NULL);
+                 replace_X(aux, '6', '0');
+                 write(script_file, aux, strlen(aux));
+                 
+                 write(script_file, group, strlen(group));
+                 write(script_file, chmod, strlen(chmod));
+                 break;
+    }
+    update_list(port);
 }
 
 int contains(int *list, int port, int size)
